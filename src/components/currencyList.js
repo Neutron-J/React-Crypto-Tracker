@@ -57,7 +57,7 @@ class CurrencyList extends Component {
         (currencies.length) ?
           currencies.map(
             (currency, i) =>
-            <CurrencyItem key={i} coin={currency.symbol} price={currency['quotes'][fiat]['price']} fiat={fiat} />
+            <CurrencyItem key={currency.id} coin={currency.symbol} price={currency['quotes'][fiat]['price']} fiat={fiat} />
           ):
           <span>Nothing to display</span>
         }
