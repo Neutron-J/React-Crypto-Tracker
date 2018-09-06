@@ -47,17 +47,18 @@ class CurrencyList extends Component {
     
     return (
       <div className="currencyContainer">
+        
+        <div className="currencyList">
+        <h1>List of Crypto-currencies</h1>
         <div className="currencyPicker">
           <DropDown dropDownItems={fiatList} selectedFiat={fiat} onChange={this.changeFiatCurrency}/>
         </div>
-        <div className="currencyList">
-        <h1>List of Crypto-currencies</h1>
         {(loading) ?
           <span>loading...</span> : 
         (currencies.length) ?
           currencies.map(
-            (currency, i) =>
-            <CurrencyItem key={currency.id} coin={currency.symbol} price={currency['quotes'][fiat]['price']} fiat={fiat} />
+            (currency) =>
+            <CurrencyItem key={currency.id} {...currency} fiat={fiat} />
           ):
           <span>Nothing to display</span>
         }

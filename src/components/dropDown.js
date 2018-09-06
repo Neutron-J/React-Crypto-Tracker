@@ -9,9 +9,9 @@ class DropDown extends Component {
     const dropDownOptions =  dropDownItems.map((dropDownItem, i) => (<option value={dropDownItem} key={i} >{dropDownItem}</option>) );
     
     return(
-        <select defaultValue={selectedFiat} onChange={onChange}>
-         {dropDownOptions}
-        </select>
+      <select defaultValue={selectedFiat} onChange={onChange}>
+        {dropDownOptions}
+      </select>
     )
   }
 

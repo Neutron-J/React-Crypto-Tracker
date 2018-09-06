@@ -25,19 +25,30 @@ class CurrencyItem extends Component {
       USDT: 'https://static.cryptorival.com/imgs/coins/USDT.svg'
     };
 
-    const { coin, price, fiat } = this.props;
+    const { symbol, quotes, fiat } = this.props;
 
     return (
+      <div>
       <h2>
-        <img src={images[coin]} alt="" className="icon__coin"/>
-        {coin} =&nbsp;
+        <img src={images[symbol]} alt="" className="icon__coin"/>
         {new Intl.NumberFormat('en-GB', { 
           style: 'currency', 
           currency: fiat,
           minimumFractionDigits: 2, 
           maximumFractionDigits: 2 
-        }).format(price)}
+        }).format(quotes[fiat].price)}
       </h2>
+      <h3>
+        Change 1hour: {quotes[fiat].percent_change_1h}
+      </h3>
+      <h3>
+        Change 24hour: {quotes[fiat].percent_change_24h}
+      </h3>
+      <h3>
+        Change 7day: {quotes[fiat].percent_change_7d}
+      </h3>
+      </div>
+      //If change 0< green / 0>red. Install Classnames
     )
   }
 }
