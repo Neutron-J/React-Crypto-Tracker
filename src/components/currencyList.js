@@ -9,7 +9,8 @@ class CurrencyList extends Component {
       currencies:[],
       fiat: 'AUD',
       fiatList: ['USD', 'EUR', 'AUD', 'GBP'],
-      loading: false
+      loading: false, 
+      error: null,
     };
     this.changeFiatCurrency = this.changeFiatCurrency.bind(this);
   }
@@ -37,7 +38,8 @@ class CurrencyList extends Component {
         .then(currencies => this.setState({
             currencies,
             loading: false
-        }));
+        }))
+        .catch(error => this.setState({error}));
 
   }
 
