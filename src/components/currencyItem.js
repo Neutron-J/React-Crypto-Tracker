@@ -63,7 +63,7 @@ class CurrencyItem extends Component {
         
         <div className="changeValues">
           {changeValues.map(
-            (changeValue) =>  <CurrencyChange {...changeValue} />
+            (changeValue, i) =>  <CurrencyChange key={i} {...changeValue} />
           )}    
         </div> 
       </div>
