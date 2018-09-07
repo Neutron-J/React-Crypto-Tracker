@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { sortBy } from 'lodash';
+import axios from 'axios';
 import CurrencyItem from './currencyItem';
 import DropDown from './dropDown';
 import SortSelect from './sortSelect';
@@ -42,12 +43,12 @@ class CurrencyList extends Component {
     
     this.setState({loading: true, fiat: c});
 
-    fetch(`https://api.coinmarketcap.com/v2/ticker/?limit=10&convert=${c}&structure=array`)
-        .then(response => response.json())
-        .then(json => json.data)
+    axios(`https://api.coinmarketcap.com/v2/ticker/?limit=10&convert=${c}&structure=array`)
+        //.then(response => response.json())
+        //.then(json => json.data)
         //.then(data =>   data = Object.keys(data).map((key) => data[key])) Map JSON if supplied as Object not Array
-        .then(currencies => this.setState({
-            currencies,
+        .then(result => this.setState({
+            currencies: result.data.data,
             loading: false
         }))
         .catch(error => this.setState({error}));
