@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CurrencyChange from './currencyChange';
 
 class CurrencyItem extends Component {
 
@@ -27,26 +28,38 @@ class CurrencyItem extends Component {
 
     const { symbol, quotes, fiat } = this.props;
 
+    const changeValues = [
+      {
+        title: 'Change 1 hour',
+        value: `${quotes[fiat].percent_change_1h}`
+      },
+      {
+        title: 'Change 24 hour',
+        value: `${quotes[fiat].percent_change_24h}`
+      },
+      {
+        title: 'Change 7 day',
+        value: `${quotes[fiat].percent_change_7d}`
+      }
+    ]
+
+    
     return (
       <div>
-      <h2>
-        <img src={images[symbol]} alt="" className="icon__coin"/>
-        {new Intl.NumberFormat('en-GB', { 
-          style: 'currency', 
-          currency: fiat,
-          minimumFractionDigits: 2, 
-          maximumFractionDigits: 2 
-        }).format(quotes[fiat].price)}
-      </h2>
-      <h3>
-        Change 1hour: {quotes[fiat].percent_change_1h}
-      </h3>
-      <h3>
-        Change 24hour: {quotes[fiat].percent_change_24h}
-      </h3>
-      <h3>
-        Change 7day: {quotes[fiat].percent_change_7d}
-      </h3>
+        <h2>
+          <img src={images[symbol]} alt="" className="icon__coin"/>
+          {new Intl.NumberFormat('en-GB', { 
+            style: 'currency', 
+            currency: fiat,
+            minimumFractionDigits: 2, 
+            maximumFractionDigits: 2 
+          }).format(quotes[fiat].price)}
+        </h2>
+        <div className="change-values">
+          {changeValues.map(
+            (changeValue) =>  <CurrencyChange {...changeValue} />
+          )}    
+        </div> 
       </div>
       //If change 0< green / 0>red. Install Classnames
     )

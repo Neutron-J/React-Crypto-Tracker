@@ -45,7 +45,7 @@ class CurrencyList extends Component {
 
   render() {
     
-    const { currencies, loading, fiat, fiatList } = this.state;
+    const { currencies, loading, fiat, fiatList, error } = this.state;
     
     return (
       <div className="currencyContainer">
@@ -55,7 +55,11 @@ class CurrencyList extends Component {
         <div className="currencyPicker">
           <DropDown dropDownItems={fiatList} selectedFiat={fiat} onChange={this.changeFiatCurrency}/>
         </div>
-        {(loading) ?
+        {
+        (error) ?
+        <p className="error">Error. Something went wrong. </p>
+        :  
+        (loading) ?
           <span>loading...</span> : 
         (currencies.length) ?
           currencies.map(
