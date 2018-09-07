@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
+import { sortBy } from 'lodash';
 import CurrencyItem from './currencyItem';
 import DropDown from './dropDown';
+import SortSelect from './sortSelect';
+
+const SORTS = {
+  NONE: currencies => currencies,
+  ASC: currencies => sortBy(currencies, 'quotes.USD.price'),
+  DESC: currencies => sortBy(currencies, 'quotes.USD.price').reverse(),
+};
 
 class CurrencyList extends Component {
   constructor(props) {
@@ -11,10 +19,13 @@ class CurrencyList extends Component {
       fiatList: ['USD', 'EUR', 'AUD', 'GBP'],
       loading: false, 
       error: null,
+      sortKey: 'NONE',
     };
     this.changeFiatCurrency = this.changeFiatCurrency.bind(this);
+    this.updateOrder = this.updateOrder.bind(this);
+
   }
-  
+
   componentDidMount() {
         
     this.fetchCurrencyList(`${this.state.fiat}`);
@@ -43,17 +54,22 @@ class CurrencyList extends Component {
 
   }
 
+  updateOrder(e) {
+    this.setState({sortKey: e.target.value});
+  }
+
   render() {
     
-    const { currencies, loading, fiat, fiatList, error } = this.state;
+    const { currencies, loading, fiat, fiatList, error, sortKey } = this.state;
     
     return (
       <div className="currencyContainer">
         
         <div className="currencyList">
         <h1>Crypto-track</h1>
-        <div className="currencyPicker">
+        <div className="selectors">
           <DropDown dropDownItems={fiatList} selectedFiat={fiat} onChange={this.changeFiatCurrency}/>
+          <SortSelect sorts={SORTS} sortKey={sortKey} onChange={this.updateOrder} />
         </div>
         {
         (error) ?
@@ -62,7 +78,7 @@ class CurrencyList extends Component {
         (loading) ?
           <span>loading...</span> : 
         (currencies.length) ?
-          currencies.map(
+          SORTS[sortKey](currencies).map(
             (currency) =>
             <CurrencyItem key={currency.id} {...currency} fiat={fiat} />
           ):
