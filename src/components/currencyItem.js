@@ -26,7 +26,7 @@ class CurrencyItem extends Component {
       USDT: 'https://static.cryptorival.com/imgs/coins/USDT.svg'
     };
 
-    const { symbol, quotes, fiat } = this.props;
+    const { name, symbol, quotes, fiat } = this.props;
 
     const changeValues = [
       {
@@ -41,27 +41,32 @@ class CurrencyItem extends Component {
         title: 'Change 7 day',
         value: `${quotes[fiat].percent_change_7d}`
       }
-    ]
+    ];
 
     
     return (
-      <div>
-        <h2>
-          <img src={images[symbol]} alt="" className="icon__coin"/>
-          {new Intl.NumberFormat('en-GB', { 
-            style: 'currency', 
-            currency: fiat,
-            minimumFractionDigits: 2, 
-            maximumFractionDigits: 2 
-          }).format(quotes[fiat].price)}
-        </h2>
-        <div className="change-values">
+      <div className="currencyItem__row">
+        <div className="currencyItem__heading">
+          <h2>            
+            {new Intl.NumberFormat('en-GB', { 
+              style: 'currency', 
+              currency: fiat,
+              minimumFractionDigits: 2, 
+              maximumFractionDigits: 2 
+            }).format(quotes[fiat].price)}
+          </h2>
+          <div className="currencyItem__crypto">
+            <img src={images[symbol]} alt="" className="icon__coin"/>
+            <h2>{name}</h2>
+          </div>
+        </div>
+        
+        <div className="changeValues">
           {changeValues.map(
             (changeValue) =>  <CurrencyChange {...changeValue} />
           )}    
         </div> 
       </div>
-      //If change 0< green / 0>red. Install Classnames
     )
   }
 }

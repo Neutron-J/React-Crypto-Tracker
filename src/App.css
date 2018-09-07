@@ -1,33 +1,82 @@
-.App {
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+h1 {
   text-align: center;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
+.currencyContainer {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 20px;
-  color: white;
 }
 
-.App-title {
-  font-size: 1.5em;
-}
+.currencyPicker select {
+  margin: 0 auto 40px;
+  display: block;
 
-.App-intro {
-  font-size: large;
 }
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.currencyItem__row {
+  margin: 0 0 20px; 
+  padding:20px 0;
+  border-bottom: 2px solid #000;
 }
-
+.currencyItem__row h2 {
+  float:right;
+  margin: 0;
+  font-size: 24px; 
+  line-height: 50px;
+}
 .icon__coin {
   width: 50px;
   height: 50px;
+  float: left;
+}
+.currencyItem__crypto {
+  width: 50%;
+}
+.currencyItem__crypto h2 {
+  float: none;
+  text-align: left;
+  display: inline;
+  padding-left: 10px;
+}
+
+.error {
+  color: #f00;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.changeValue {
+  width: 33%;
+  text-align: center;
+  display: inline-block;
+  padding: 20px 0;
+}
+
+.changeValue h3 {
+  font-size: 22px;
+  text-align: center;
+  margin: 0;
+  padding-bottom: 5px;
+}
+
+.changeValue__value {
+  font-size: 18px;
+  text-align: center;
+}
+
+.changeValue__increase {
+  color: green;
+}
+.changeValue__increase::after {
+  content: ' ↥'
+}
+.changeValue__decrease {
+  color: #f00;
+}
+.changeValue__decrease::after {
+  content: ' ↧'
 }

@@ -51,7 +51,7 @@ class CurrencyList extends Component {
       <div className="currencyContainer">
         
         <div className="currencyList">
-        <h1>List of Crypto-currencies</h1>
+        <h1>Crypto-track</h1>
         <div className="currencyPicker">
           <DropDown dropDownItems={fiatList} selectedFiat={fiat} onChange={this.changeFiatCurrency}/>
         </div>
