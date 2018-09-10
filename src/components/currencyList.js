@@ -21,10 +21,11 @@ class CurrencyList extends Component {
       loading: false, 
       error: null,
       sortKey: 'NONE',
+      openSections: {},
     };
     this.changeFiatCurrency = this.changeFiatCurrency.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
-
+    this.expandListItem = this.expandListItem.bind(this);
   }
 
   componentDidMount() {
@@ -55,13 +56,22 @@ class CurrencyList extends Component {
 
   }
 
+  expandListItem(e) {
+   const sectionKey = e.currentTarget.getAttribute('data-id');
+
+    (this.state.openSections[sectionKey] === 'open') ?
+      this.setState({openSections: {[sectionKey]: 'closed'}})
+      : this.setState({openSections: {[sectionKey]: 'open'}});
+    
+  }
+
   updateOrder(e) {
     this.setState({sortKey: e.target.value});
   }
 
   render() {
     
-    const { currencies, loading, fiat, fiatList, error, sortKey } = this.state;
+    const { currencies, loading, fiat, fiatList, error, sortKey, openSections } = this.state;
     
     return (
       <div className="currencyContainer">
@@ -81,7 +91,7 @@ class CurrencyList extends Component {
         (currencies.length) ?
           SORTS[sortKey](currencies).map(
             (currency) =>
-            <CurrencyItem key={currency.id} {...currency} fiat={fiat} />
+            <CurrencyItem key={currency.id} openSections={openSections} {...currency} fiat={fiat} onClick={this.expandListItem} />
           ):
           <span>Nothing to display</span>
         }
