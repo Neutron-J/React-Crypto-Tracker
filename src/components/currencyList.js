@@ -16,15 +16,17 @@ class CurrencyList extends Component {
     super(props);
     this.state = {
       currencies:[],
+      currentList: [],
       fiat: 'AUD',
       fiatList: ['USD', 'EUR', 'AUD', 'GBP'],
       loading: false, 
       error: null,
       sortKey: 'NONE',
+      openSection: {},
     };
     this.changeFiatCurrency = this.changeFiatCurrency.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
-
+    this.expandListItem = this.expandListItem.bind(this);
   }
 
   componentDidMount() {
@@ -35,8 +37,21 @@ class CurrencyList extends Component {
 
   changeFiatCurrency(e) {
         
-    this.fetchCurrencyList(e.target.value);
+    this.checkCurrencyList(e.target.value);
 
+  }
+
+  checkCurrencyList(c) {
+    const { currencies } = this.state;
+    if ( currencies[c] && (currencies[c].timeStamp > Date.now() - 1800000 ) ) {
+      this.setState({
+        currentList: currencies[c].currencyList,
+        fiat: c,
+        loading: false
+      });
+    } else {
+      this.fetchCurrencyList(c);
+    }
   }
 
   fetchCurrencyList(c) {
@@ -47,12 +62,34 @@ class CurrencyList extends Component {
         //.then(response => response.json())
         //.then(json => json.data)
         //.then(data =>   data = Object.keys(data).map((key) => data[key])) Map JSON if supplied as Object not Array
-        .then(result => this.setState({
-            currencies: result.data.data,
-            loading: false
-        }))
+        .then(result => this.storeCurrencyList(c, result.data.data))
         .catch(error => this.setState({error}));
 
+  }
+
+  storeCurrencyList(fiat, currencyList) {
+
+    this.setState(prevState => ({
+      currencies: {
+        ...prevState.currencies,
+        [fiat]: {
+          currencyList,
+          timeStamp: Date.now() 
+        }
+      },
+      currentList: currencyList,
+      loading: false
+    }));
+
+  }
+
+  expandListItem(e) {
+   const sectionKey = e.currentTarget.getAttribute('data-id');
+
+    (this.state.openSection[sectionKey] === 'open') ?
+      this.setState({openSection: {[sectionKey]: 'closed'}})
+      : this.setState({openSection: {[sectionKey]: 'open'}});
+    
   }
 
   updateOrder(e) {
@@ -61,8 +98,8 @@ class CurrencyList extends Component {
 
   render() {
     
-    const { currencies, loading, fiat, fiatList, error, sortKey } = this.state;
-    
+    const { currentList, loading, fiat, fiatList, error, sortKey, openSection } = this.state;
+        
     return (
       <div className="currencyContainer">
         
@@ -78,11 +115,11 @@ class CurrencyList extends Component {
         :  
         (loading) ?
           <span>loading...</span> : 
-        (currencies.length) ?
-          SORTS[sortKey](currencies).map(
+        (currentList.length) ?
+          SORTS[sortKey](currentList).map(
             (currency) =>
-            <CurrencyItem key={currency.id} {...currency} fiat={fiat} />
-          ):
+            <CurrencyItem key={currency.id} openSection={openSection} {...currency} fiat={fiat} onClick={this.expandListItem} />
+          ) :
           <span>Nothing to display</span>
         }
           
@@ -93,5 +130,10 @@ class CurrencyList extends Component {
   }
 
 }
+
+    
+//let currencyToDisplay = (currencies[fiat].length) ? ( `${currencies[fiat]}`) : null;
+
+//console.log(loading + ' ' + currencyToDisplay);
 
 export default CurrencyList;

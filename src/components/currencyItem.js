@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import CurrencyChange from './currencyChange';
 
 class CurrencyItem extends Component {
@@ -26,7 +27,7 @@ class CurrencyItem extends Component {
       USDT: 'https://static.cryptorival.com/imgs/coins/USDT.svg'
     };
 
-    const { name, symbol, quotes, fiat } = this.props;
+    const { id, name, symbol, quotes, fiat, onClick, openSection } = this.props;
 
     const changeValues = [
       {
@@ -43,9 +44,16 @@ class CurrencyItem extends Component {
       }
     ];
 
+    const rowClass = classNames (
+      'currencyItem__row',
+      {
+        'currencyItem__row--isExpanded': openSection[id] === 'open'
+      }
+    );
+
     
     return (
-      <div className="currencyItem__row">
+      <div data-id={id} className={rowClass} onClick={onClick}>
         <div className="currencyItem__heading">
           <h2>            
             {new Intl.NumberFormat('en-GB', { 
