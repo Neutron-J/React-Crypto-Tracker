@@ -27,7 +27,7 @@ class CurrencyItem extends Component {
       USDT: 'https://static.cryptorival.com/imgs/coins/USDT.svg'
     };
 
-    const { id, name, symbol, quotes, fiat, onClick, openSections } = this.props;
+    const { id, name, symbol, quotes, fiat, onClick, openSection } = this.props;
 
     const changeValues = [
       {
@@ -47,7 +47,7 @@ class CurrencyItem extends Component {
     const rowClass = classNames (
       'currencyItem__row',
       {
-        'currencyItem__row--isExpanded': openSections[id] === 'open'
+        'currencyItem__row--isExpanded': openSection[id] === 'open'
       }
     );
 
